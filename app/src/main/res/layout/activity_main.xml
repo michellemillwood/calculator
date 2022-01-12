@@ -1,60 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
     tools:context=".MainActivity">
 
-    <TextView
+    <Button
         android:id="@+id/clear"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
         android:text="@string/clear"
-        android:gravity="center"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/seven"
         app:layout_constraintEnd_toStartOf="@id/parenthesis"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/blue" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/parenthesis"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
         android:text="@string/parentheses"
-        app:layout_constraintStart_toEndOf="@id/clear"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/eight"
         app:layout_constraintEnd_toStartOf="@id/delete"
-        android:gravity="center"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/blue" />
+        app:layout_constraintStart_toEndOf="@id/clear" />
 
-    <TextView
+    <Button
         android:id="@+id/delete"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
         android:text="@string/delete"
-        app:layout_constraintStart_toEndOf="@id/parenthesis"
-        android:gravity="center"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nine"
         app:layout_constraintEnd_toStartOf="@id/division"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/blue" />
+        app:layout_constraintStart_toEndOf="@id/parenthesis" />
 
-    <TextView
+    <Button
         android:id="@+id/division"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:text="@string/operator_division"
-        app:layout_constraintStart_toEndOf="@id/delete"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
         android:gravity="center"
+        android:text="@string/operator_division"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/multiply"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/blue" />
+        app:layout_constraintStart_toEndOf="@id/delete" />
 
+    <Button
+        android:id="@+id/seven"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_seven"
+        app:layout_constraintBottom_toTopOf="@+id/four"
+        app:layout_constraintEnd_toStartOf="@+id/eight"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/eight"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_eight"
+        app:layout_constraintBottom_toTopOf="@+id/five"
+        app:layout_constraintEnd_toStartOf="@+id/nine"
+        app:layout_constraintStart_toEndOf="@id/seven" />
 
+    <Button
+        android:id="@+id/nine"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_nine"
+        app:layout_constraintBottom_toTopOf="@+id/six"
+        app:layout_constraintEnd_toStartOf="@+id/multiply"
+        app:layout_constraintStart_toEndOf="@id/eight" />
+
+    <Button
+        android:id="@+id/multiply"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
+        android:text="@string/operator_multiplication"
+        app:layout_constraintBottom_toTopOf="@+id/subtraction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/delete" />
+
+    <Button
+        android:id="@+id/four"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_four"
+        app:layout_constraintBottom_toTopOf="@+id/one"
+        app:layout_constraintEnd_toStartOf="@+id/five"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/five"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        style="@style/NumberButtonStyle"
+        android:text="@string/digit_five"
+        app:layout_constraintBottom_toTopOf="@+id/two"
+        app:layout_constraintEnd_toStartOf="@+id/six"
+        app:layout_constraintStart_toEndOf="@id/four" />
+
+    <Button
+        android:id="@+id/six"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_six"
+        app:layout_constraintBottom_toTopOf="@+id/three"
+        app:layout_constraintEnd_toStartOf="@+id/subtraction"
+        app:layout_constraintStart_toEndOf="@id/five" />
+
+    <Button
+        android:id="@+id/subtraction"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
+        android:text="@string/operator_subtraction"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/addition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/six" />
+
+    <Button
+        android:id="@+id/one"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_one"
+        app:layout_constraintBottom_toTopOf="@+id/something"
+        app:layout_constraintEnd_toStartOf="@+id/two"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/two"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_two"
+        app:layout_constraintBottom_toTopOf="@+id/zero"
+        app:layout_constraintEnd_toStartOf="@+id/three"
+        app:layout_constraintStart_toEndOf="@id/one" />
+
+    <Button
+        android:id="@+id/three"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_three"
+        app:layout_constraintBottom_toTopOf="@+id/dot"
+        app:layout_constraintEnd_toStartOf="@+id/addition"
+        app:layout_constraintStart_toEndOf="@id/two" />
+
+    <Button
+        android:id="@+id/addition"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
+        android:text="@string/operator_addition"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/equals"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/three" />
+
+    <Button
+        android:id="@+id/something"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
+        android:text=":)"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/zero"
+        app:layout_constraintEnd_toStartOf="@+id/zero"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/zero"
+        style="@style/NumberButtonStyle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/digit_zero"
+        app:layout_constraintBottom_toBottomOf="@id/dot"
+        app:layout_constraintEnd_toStartOf="@+id/dot"
+        app:layout_constraintStart_toEndOf="@id/something" />
+
+    <Button
+        android:id="@+id/dot"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
+        android:text="@string/dot"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/equals"
+        app:layout_constraintEnd_toStartOf="@+id/equals"
+        app:layout_constraintStart_toEndOf="@id/zero" />
+
+    <Button
+        android:id="@+id/equals"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/equals"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/dot" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
