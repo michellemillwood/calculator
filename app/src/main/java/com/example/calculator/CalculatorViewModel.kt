@@ -4,26 +4,50 @@ import androidx.lifecycle.ViewModel
 
 class CalculatorViewModel : ViewModel() {
 
-    private val calculation = mutableListOf<String>()
+    private val input = mutableListOf<Char>()
 
-    fun receiveInput(input: String) {
-        calculation.add(input)
+    fun receiveDigitInput(digit: Char) {
+        input.add(digit)
     }
 
-    fun getCurrentCalculation() = calculation.joinToString("")
-
-    fun allClear() = calculation.clear()
-
-    fun deleteLastNumber(): String {
-        if (calculation.isNotEmpty()) {
-            calculation.removeLast()
+    fun receiveOperatorInput(operator: Char) {
+        if (input.isNotEmpty() && input.last().isDigit()) {
+            input.add(operator)
         }
-        return getCurrentCalculation()
     }
 
-    fun addDot() {
-        if ("." !in calculation) {
-            calculation.add(".")
+    fun receiveDecimalSeparatorInput() {
+        if (!lastNumberHasDecimal()) {
+            if (input.isEmpty() || !input.last().isDigit()) {
+                input.add('0')
+            }
+            input.add('.')
         }
+    }
+
+    fun getCurrentCalculation() = input.joinToString("")
+
+    fun allClear() = input.clear()
+
+    fun deleteLast() {
+        if (input.isNotEmpty()) {
+            input.removeLast()
+        }
+    }
+
+
+    private fun lastNumberHasDecimal(): Boolean {
+        val indexOfOperator = input.indexOfLast { char ->
+            Operator.values().any { it.symbol == char }
+        }
+        return input.subList(indexOfOperator + 1, input.size).contains('.')
+    }
+
+    private fun splitInputNumbers() {
+       val operators = Operator.values().map { it.symbol }
+    }
+
+    private fun orderNumbers() {
+
     }
 }

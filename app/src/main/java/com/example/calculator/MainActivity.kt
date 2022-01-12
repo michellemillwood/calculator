@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: CalculatorViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
@@ -22,30 +23,31 @@ class MainActivity : AppCompatActivity() {
     private fun setupButtons() {
         setupClearButton()
         setupBackSpaceButton()
-        setupNumberButtons()
+        setupDigitButtons()
         setupEqualsButton()
-        setupDotButton()
+        setupDecimalButton()
+        setupOperatorButtons()
     }
 
-    private fun setupDotButton() {
+    private fun setupDecimalButton() {
         with(binding) {
             dot.setOnClickListener {
-                viewModel.addDot()
-                inputNumbers.text = viewModel.getCurrentCalculation()
+                viewModel.receiveDecimalSeparatorInput()
+                input.text = viewModel.getCurrentCalculation()
             }
         }
     }
 
     private fun setupEqualsButton() {
         with(binding) {
-            equals.setOnClickListener {
+            buttonEquals.setOnClickListener {
                 result.text = viewModel.getCurrentCalculation()
             }
         }
     }
 
 
-    private fun setupNumberButtons() {
+    private fun setupDigitButtons() {
         with(binding) {
             val numberButtons = listOf(
                 buttonZero,
@@ -61,8 +63,8 @@ class MainActivity : AppCompatActivity() {
             )
             numberButtons.forEach { button ->
                 button.setOnClickListener {
-                    viewModel.receiveInput(button.text.toString())
-                    binding.inputNumbers.text = viewModel.getCurrentCalculation()
+                    viewModel.receiveDigitInput(button.text.first())
+                    input.text = viewModel.getCurrentCalculation()
                 }
             }
         }
@@ -71,7 +73,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupBackSpaceButton() {
         with(binding) {
             backspace.setOnClickListener {
-                inputNumbers.text = viewModel.deleteLastNumber()
+                viewModel.deleteLast()
+                input.text = viewModel.getCurrentCalculation()
             }
         }
     }
@@ -81,8 +84,25 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             allClear.setOnClickListener {
                 viewModel.allClear()
-                inputNumbers.text = viewModel.getCurrentCalculation()
+                input.text = viewModel.getCurrentCalculation()
                 result.text = viewModel.getCurrentCalculation()
+            }
+        }
+    }
+
+    private fun setupOperatorButtons() {
+        with(binding) {
+            val operatorButtons = listOf(
+                buttonDivision,
+                buttonMultiply,
+                buttonSubtraction,
+                buttonAddition,
+            )
+            operatorButtons.forEach { button ->
+                button.setOnClickListener {
+                    viewModel.receiveOperatorInput(button.text.first())
+                    input.text = viewModel.getCurrentCalculation()
+                }
             }
         }
     }
