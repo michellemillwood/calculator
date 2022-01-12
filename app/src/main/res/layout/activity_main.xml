@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/clear"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:text="@string/clear"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/parenthesis"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/blue" />
+
+    <TextView
+        android:id="@+id/parenthesis"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:text="@string/parentheses"
+        app:layout_constraintStart_toEndOf="@id/clear"
+        app:layout_constraintEnd_toStartOf="@id/delete"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/blue" />
+
+    <TextView
+        android:id="@+id/delete"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:text="@string/delete"
+        app:layout_constraintStart_toEndOf="@id/parenthesis"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@id/division"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/blue" />
+
+    <TextView
+        android:id="@+id/division"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:text="@string/operator_division"
+        app:layout_constraintStart_toEndOf="@id/delete"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/blue" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
