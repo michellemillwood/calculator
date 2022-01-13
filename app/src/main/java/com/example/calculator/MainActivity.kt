@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             dot.setOnClickListener {
                 viewModel.parseDecimalSeparatorInput()
-                input.text = viewModel.getCurrentExpression()
+                showCurrentExpression()
             }
         }
     }
@@ -44,7 +44,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupEqualsButton() {
         with(binding) {
             buttonEquals.setOnClickListener {
-                result.text = NumberFormat.getInstance().format(viewModel.calculateExpression())
+                if (viewModel.expressionIsValid()) {
+                    result.text = NumberFormat.getInstance().format(viewModel.calculateExpression())
+                }
+                else {
+                    result.text = "invalid expression"
+                }
             }
         }
     }
@@ -58,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             parenthesesButtons.forEach { parenthesesButton ->
                 parenthesesButton.setOnClickListener {
                     viewModel.parseParenthesesInput(parenthesesButton.text.toString())
-                    input.text = viewModel.getCurrentExpression()
+                    showCurrentExpression()
                 }
             }
         }
@@ -85,7 +90,6 @@ class MainActivity : AppCompatActivity() {
             numberButtons.forEach { button ->
                 button.setOnClickListener {
                     viewModel.parseDigitInput(button.text.toString())
-                    //input.text = viewModel.getCurrentExpression()
                     showCurrentExpression()
                 }
             }
@@ -96,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             backspace.setOnClickListener {
                 viewModel.deleteLast()
-                input.text = viewModel.getCurrentExpression()
+                showCurrentExpression()
             }
         }
     }
@@ -123,7 +127,7 @@ class MainActivity : AppCompatActivity() {
             operatorButtons.forEach { button ->
                 button.setOnClickListener {
                     viewModel.parseOperatorInput(button.text.toString())
-                    input.text = viewModel.getCurrentExpression()
+                    showCurrentExpression()
                 }
             }
         }

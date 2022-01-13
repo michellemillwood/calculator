@@ -88,12 +88,23 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
+    private fun hasEvenNumberOfParentheses(): Boolean {
+        val opening = currentExpression.filter { it == "(" }
+        val closing = currentExpression.filter { it == ")" }
+        return opening.size == closing.size
+    }
+
+    fun expressionIsValid(): Boolean {
+        return hasEvenNumberOfParentheses()
+    }
+
     fun calculateExpression(): Double {
         val expression = mutableListOf<String>().apply { addAll(currentExpression) }
 
         if (lastStringIsOperator()) {
             expression.removeLast()
         }
+
         while (expression.contains(Operator.MULTIPLICATION.symbol)) {
             calculateInOrder(expression, Operator.MULTIPLICATION)
         }
