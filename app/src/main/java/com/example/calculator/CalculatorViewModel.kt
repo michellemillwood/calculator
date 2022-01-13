@@ -106,9 +106,9 @@ class CalculatorViewModel : ViewModel() {
     ): Double {
         return when (operator) {
             Operator.MULTIPLICATION -> n1 * n2
-            Operator.SUBTRACTION -> n1 - n2
             Operator.DIVISION -> n1 / n2
             Operator.ADDITION -> n1 + n2
+            Operator.SUBTRACTION -> n1 - n2
         }
     }
 }

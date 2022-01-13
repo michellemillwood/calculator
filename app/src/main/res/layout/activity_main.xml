@@ -38,37 +38,31 @@
 
     <Button
         android:id="@+id/allClear"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         android:gravity="center"
         android:text="@string/clear"
         android:textColor="@color/white"
         android:backgroundTint="@color/red"
         app:layout_constraintBottom_toTopOf="@+id/button_seven"
-        app:layout_constraintEnd_toStartOf="@id/something"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/something"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
-        android:gravity="center"
-        android:backgroundTint="@color/dark_grey"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button_eight"
         app:layout_constraintEnd_toStartOf="@id/backspace"
-        app:layout_constraintStart_toEndOf="@id/allClear" />
+        app:layout_constraintStart_toStartOf="@id/button_seven" />
+
+
 
     <ImageButton
         android:id="@+id/backspace"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
         android:gravity="center"
+        android:layout_marginStart="2dp"
         android:backgroundTint="@color/orange"
         android:src="@drawable/ic_outline_backspace_24"
         app:layout_constraintBottom_toTopOf="@+id/button_nine"
-        app:layout_constraintEnd_toStartOf="@id/button_division"
-        app:layout_constraintStart_toEndOf="@id/something" />
+        app:layout_constraintEnd_toEndOf="@id/button_nine"
+        app:layout_constraintStart_toEndOf="@id/allClear" />
 
     <Button
         android:id="@+id/button_division"
@@ -79,8 +73,7 @@
         android:text="@string/operator_division"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/button_multiply"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/backspace" />
+        app:layout_constraintStart_toStartOf="@id/button_multiply" />
 
     <Button
         android:id="@+id/button_seven"
@@ -121,7 +114,7 @@
         android:text="@string/operator_multiplication"
         app:layout_constraintBottom_toTopOf="@+id/button_subtraction"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/backspace" />
+        app:layout_constraintStart_toEndOf="@id/button_nine" />
 
     <Button
         android:id="@+id/button_four"
