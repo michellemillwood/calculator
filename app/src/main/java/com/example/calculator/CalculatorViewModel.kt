@@ -2,7 +2,6 @@ package com.example.calculator
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import java.lang.Exception
 
 class CalculatorViewModel : ViewModel() {
 
@@ -60,9 +59,11 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
-    fun calculateExpression(): String {
+    fun calculateExpression(): Double {
         val expression = mutableListOf<String>().apply { addAll(currentExpression) }
-
+        if (lastCharIsOperator()) {
+            expression.removeLast()
+        }
         while (expression.contains(Operator.MULTIPLICATION.symbol)) {
             calculateInOrder(expression, Operator.MULTIPLICATION)
         }
@@ -75,7 +76,12 @@ class CalculatorViewModel : ViewModel() {
         while (expression.contains(Operator.SUBTRACTION.symbol)) {
             calculateInOrder(expression, Operator.SUBTRACTION)
         }
-        return expression.joinToString()
+        Log.d("viewModel", expression.toString())
+
+        if (expression.size > 1) {
+            throw ArithmeticException("invalid calculation")
+        }
+        return expression.first().toDouble()
     }
 
     private fun calculateInOrder(

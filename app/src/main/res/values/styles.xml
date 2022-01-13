@@ -4,13 +4,13 @@
         <item name="android:textSize">21sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">center</item>
-        <item name="android:backgroundTint">@color/blue</item>
+        <item name="android:backgroundTint">@color/grey</item>
     </style>
 
     <style name="operatorButton">
         <item name="android:textSize">21sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">center</item>
-        <item name="android:backgroundTint">@color/navy</item>
+        <item name="android:backgroundTint">@color/dark_grey</item>
     </style>
 </resources>

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.example.calculator.databinding.ActivityMainBinding
+import java.text.NumberFormat
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+        binding.input.text = viewModel.getCurrentExpression()
         setupButtons()
     }
 
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupEqualsButton() {
         with(binding) {
             buttonEquals.setOnClickListener {
-                result.text = viewModel.calculateExpression()
+                result.text = NumberFormat.getInstance().format(viewModel.calculateExpression())
             }
         }
     }
