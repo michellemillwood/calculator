@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             dot.setOnClickListener {
                 viewModel.receiveDecimalSeparatorInput()
-                input.text = viewModel.getCurrentCalculation()
+                input.text = viewModel.getCurrentExpression()
             }
         }
     }
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupEqualsButton() {
         with(binding) {
             buttonEquals.setOnClickListener {
-                result.text = viewModel.getCurrentCalculation()
+                result.text = viewModel.calculateExpression()
             }
         }
     }
@@ -63,8 +63,8 @@ class MainActivity : AppCompatActivity() {
             )
             numberButtons.forEach { button ->
                 button.setOnClickListener {
-                    viewModel.receiveDigitInput(button.text.first())
-                    input.text = viewModel.getCurrentCalculation()
+                    viewModel.receiveDigitInput(button.text.toString())
+                    input.text = viewModel.getCurrentExpression()
                 }
             }
         }
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             backspace.setOnClickListener {
                 viewModel.deleteLast()
-                input.text = viewModel.getCurrentCalculation()
+                input.text = viewModel.getCurrentExpression()
             }
         }
     }
@@ -84,8 +84,8 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             allClear.setOnClickListener {
                 viewModel.allClear()
-                input.text = viewModel.getCurrentCalculation()
-                result.text = viewModel.getCurrentCalculation()
+                input.text = viewModel.getCurrentExpression()
+                result.text = viewModel.getCurrentExpression()
             }
         }
     }
@@ -100,8 +100,8 @@ class MainActivity : AppCompatActivity() {
             )
             operatorButtons.forEach { button ->
                 button.setOnClickListener {
-                    viewModel.receiveOperatorInput(button.text.first())
-                    input.text = viewModel.getCurrentCalculation()
+                    viewModel.receiveOperatorInput(button.text.toString())
+                    input.text = viewModel.getCurrentExpression()
                 }
             }
         }

@@ -1,12 +1,12 @@
 package com.example.calculator
 
 
-enum class Operator(val symbol: Char) {
+enum class Operator(val symbol: String) {
 
     //PARENTHESES
-    MULTIPLICATION('X'),
-    DIVISION('/'),
-    ADDITION('+'),
-    SUBTRACTION('-')
+    MULTIPLICATION("x"),
+    DIVISION("/"),
+    ADDITION("+"),
+    SUBTRACTION("-")
 
 }
