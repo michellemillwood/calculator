@@ -164,7 +164,7 @@
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:text="@string/digit_one"
-        app:layout_constraintBottom_toTopOf="@+id/parentheses"
+        app:layout_constraintBottom_toTopOf="@+id/close_parentheses"
         app:layout_constraintEnd_toStartOf="@+id/button_two"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -201,16 +201,28 @@
         app:layout_constraintStart_toEndOf="@id/button_three" />
 
     <Button
-        android:id="@+id/parentheses"
-        android:layout_width="@dimen/button_width"
+        android:id="@+id/open_parentheses"
+        android:layout_width="40dp"
         android:layout_height="@dimen/button_height"
         android:gravity="center"
         android:textColor="@color/white"
         android:backgroundTint="@color/dark_grey"
-        android:text="@string/parentheses"
+        android:text="@string/open_parentheses"
+        app:layout_constraintBottom_toBottomOf="@id/button_zero"
+        app:layout_constraintEnd_toStartOf="@+id/close_parentheses"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/close_parentheses"
+        android:layout_width="40dp"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/dark_grey"
+        android:text="@string/close_parentheses"
         app:layout_constraintBottom_toBottomOf="@id/button_zero"
         app:layout_constraintEnd_toStartOf="@+id/button_zero"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/open_parentheses" />
 
     <Button
         android:id="@+id/button_zero"
@@ -220,7 +232,7 @@
         android:text="@string/digit_zero"
         app:layout_constraintBottom_toBottomOf="@id/dot"
         app:layout_constraintEnd_toStartOf="@+id/dot"
-        app:layout_constraintStart_toEndOf="@id/parentheses" />
+        app:layout_constraintStart_toEndOf="@id/close_parentheses" />
 
     <Button
         android:id="@+id/dot"

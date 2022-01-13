@@ -19,4 +19,6 @@
     <string name="equals">=</string>
     <string name="delete">DEL</string>
     <string name="parentheses">( )</string>
+    <string name="open_parentheses">(</string>
+    <string name="close_parentheses">)</string>
 </resources>

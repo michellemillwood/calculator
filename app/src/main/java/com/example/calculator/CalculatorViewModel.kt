@@ -7,27 +7,28 @@ class CalculatorViewModel : ViewModel() {
 
     private val currentExpression = mutableListOf<String>()
 
-    fun receiveDigitInput(digit: String) {
-        if (currentExpression.isEmpty() || lastCharIsOperator()) {
+    fun parseDigitInput(digit: String) {
+        if (currentExpression.isEmpty() ||
+            lastStringIsOperator() ||
+            lastStringIsParentheses()
+        ) {
             currentExpression.add(digit)
         }
         else {
-            currentExpression[currentExpression.lastIndex] = currentExpression.last().plus(digit)
+            appendToLastNumber(digit)
         }
     }
 
-    fun receiveOperatorInput(operator: String) {
-        if (currentExpression.isNotEmpty() && !lastCharIsOperator()) {
+    fun parseOperatorInput(operator: String) {
+        if (currentExpression.isNotEmpty() && !lastStringIsOperator()) {
+            if (lastStringEndsWithDot()) {
+                appendToLastNumber("0")
+            }
             currentExpression.add(operator)
         }
     }
 
-    private fun lastCharIsOperator() : Boolean {
-        val operators = Operator.values().map { it.symbol }
-        return currentExpression.last() in operators
-    }
-
-    fun receiveDecimalSeparatorInput() {
+    fun parseDecimalSeparatorInput() {
         if (currentExpression.isEmpty()) {
             currentExpression.add("0.")
         }
@@ -36,9 +37,37 @@ class CalculatorViewModel : ViewModel() {
                 currentExpression.add("0.")
             }
             else {
-                currentExpression[currentExpression.lastIndex] = currentExpression.last().plus(".")
+                appendToLastNumber(".")
             }
         }
+    }
+
+    fun parseParenthesesInput(parentheses: String) {
+        if (currentExpression.isNotEmpty() && lastStringEndsWithDot()) {
+            appendToLastNumber("0")
+        }
+        if (parentheses == ")") {
+            if (!currentExpression.contains("("))
+                return
+        }
+        currentExpression.add(parentheses)
+    }
+
+    private fun lastStringEndsWithDot(): Boolean {
+        return currentExpression.last().last() == '.'
+    }
+
+    private fun lastStringIsOperator(): Boolean {
+        val operators = Operator.values().map { it.symbol }
+        return currentExpression.last() in operators
+    }
+
+    private fun lastStringIsParentheses(): Boolean {
+        return currentExpression.last() == "(" || currentExpression.last() == ")"
+    }
+
+    private fun appendToLastNumber(DigitOrDot: String) {
+        currentExpression[currentExpression.lastIndex] = currentExpression.last().plus(DigitOrDot)
     }
 
     fun getCurrentExpression(): String {
@@ -61,7 +90,8 @@ class CalculatorViewModel : ViewModel() {
 
     fun calculateExpression(): Double {
         val expression = mutableListOf<String>().apply { addAll(currentExpression) }
-        if (lastCharIsOperator()) {
+
+        if (lastStringIsOperator()) {
             expression.removeLast()
         }
         while (expression.contains(Operator.MULTIPLICATION.symbol)) {

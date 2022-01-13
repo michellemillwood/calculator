@@ -29,12 +29,13 @@ class MainActivity : AppCompatActivity() {
         setupEqualsButton()
         setupDecimalButton()
         setupOperatorButtons()
+        setupParenthesesButton()
     }
 
     private fun setupDecimalButton() {
         with(binding) {
             dot.setOnClickListener {
-                viewModel.receiveDecimalSeparatorInput()
+                viewModel.parseDecimalSeparatorInput()
                 input.text = viewModel.getCurrentExpression()
             }
         }
@@ -48,6 +49,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupParenthesesButton() {
+        with(binding) {
+            val parenthesesButtons = listOf(
+                openParentheses,
+                closeParentheses
+            )
+            parenthesesButtons.forEach { parenthesesButton ->
+                parenthesesButton.setOnClickListener {
+                    viewModel.parseParenthesesInput(parenthesesButton.text.toString())
+                    input.text = viewModel.getCurrentExpression()
+                }
+            }
+        }
+    }
+
+    private fun showCurrentExpression() {
+        binding.input.text = viewModel.getCurrentExpression()
+    }
 
     private fun setupDigitButtons() {
         with(binding) {
@@ -65,8 +84,9 @@ class MainActivity : AppCompatActivity() {
             )
             numberButtons.forEach { button ->
                 button.setOnClickListener {
-                    viewModel.receiveDigitInput(button.text.toString())
-                    input.text = viewModel.getCurrentExpression()
+                    viewModel.parseDigitInput(button.text.toString())
+                    //input.text = viewModel.getCurrentExpression()
+                    showCurrentExpression()
                 }
             }
         }
@@ -102,7 +122,7 @@ class MainActivity : AppCompatActivity() {
             )
             operatorButtons.forEach { button ->
                 button.setOnClickListener {
-                    viewModel.receiveOperatorInput(button.text.toString())
+                    viewModel.parseOperatorInput(button.text.toString())
                     input.text = viewModel.getCurrentExpression()
                 }
             }
