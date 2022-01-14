@@ -13,4 +13,10 @@
         <item name="android:gravity">center</item>
         <item name="android:backgroundTint">@color/dark_grey</item>
     </style>
+
+    <style name="actionBarStyle" parent="Widget.MaterialComponents.ActionBar.Primary">
+        <item name="background">@color/dark_grey</item>
+
+    </style>
+
 </resources>
