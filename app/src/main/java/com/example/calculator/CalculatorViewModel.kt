@@ -24,6 +24,7 @@ class CalculatorViewModel : ViewModel() {
             if (lastStringEndsWithDot()) {
                 appendToLastNumber("0")
             }
+            if (currentExpression.last() == "(" && operator != Operator.SUBTRACTION.symbol) return
             currentExpression.add(operator)
         }
     }
@@ -47,8 +48,10 @@ class CalculatorViewModel : ViewModel() {
             appendToLastNumber("0")
         }
         if (parentheses == ")") {
-            if (!currentExpression.contains("("))
-                return
+            if (!currentExpression.contains("(") ||
+                lastStringIsOperator() ||
+                currentExpression.last() == "("
+            ) return
         }
         currentExpression.add(parentheses)
     }
@@ -59,7 +62,7 @@ class CalculatorViewModel : ViewModel() {
 
     private fun lastStringIsOperator(): Boolean {
         val operators = Operator.values().map { it.symbol }
-        return currentExpression.last() in operators
+        return currentExpression.lastOrNull() in operators
     }
 
     private fun lastStringIsParentheses(): Boolean {
@@ -72,7 +75,7 @@ class CalculatorViewModel : ViewModel() {
 
     fun getCurrentExpression(): String {
         Log.d("viewModel", currentExpression.toString())
-        return currentExpression.joinToString("")
+        return currentExpression.joinToString(" ")
     }
 
     fun allClear() = currentExpression.clear()
@@ -95,7 +98,7 @@ class CalculatorViewModel : ViewModel() {
     }
 
     fun expressionIsValid(): Boolean {
-        return hasEvenNumberOfParentheses()
+        return hasEvenNumberOfParentheses() && currentExpression.isNotEmpty()
     }
 
     fun calculateExpression(): Double {
