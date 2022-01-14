@@ -8,6 +8,8 @@ class CalculatorViewModel : ViewModel() {
 
     private val currentExpression = mutableListOf<String>()
 
+    private val operators = Operator.values().map { it.symbol }
+
     fun parseDigitInput(digit: String) {
         if (currentExpression.isEmpty() ||
             lastStringIsOperator() ||
@@ -60,21 +62,16 @@ class CalculatorViewModel : ViewModel() {
         currentExpression.add(parentheses)
     }
 
-    private fun lastStringEndsWithDot(): Boolean {
-        return currentExpression.last().last() == '.'
-    }
+    private fun lastStringEndsWithDot() = currentExpression.last().last() == '.'
 
-    private fun lastStringIsOperator(): Boolean {
-        val operators = Operator.values().map { it.symbol }
-        return currentExpression.lastOrNull() in operators
-    }
+    private fun lastStringIsOperator() = currentExpression.lastOrNull() in operators
 
     private fun lastStringIsParentheses(): Boolean {
         return currentExpression.last() == "(" || currentExpression.last() == ")"
     }
 
-    private fun appendToLastNumber(DigitOrDot: String) {
-        currentExpression[currentExpression.lastIndex] = currentExpression.last().plus(DigitOrDot)
+    private fun appendToLastNumber(digitOrDot: String) {
+        currentExpression[currentExpression.lastIndex] = currentExpression.last().plus(digitOrDot)
     }
 
     fun getCurrentExpression(): String {
@@ -116,14 +113,21 @@ class CalculatorViewModel : ViewModel() {
             val openingIndex = expression.indexOfLast { it == "(" }
             val closingIndex = expression.indexOfFirst { it == ")" }
 
-            val subExpression = expression.subList(openingIndex+1, closingIndex)
+            val subExpression = expression.subList(openingIndex + 1, closingIndex)
             val result = calculateExpression(subExpression)
-            (closingIndex.downTo(openingIndex + 1)).forEach {
+
+            // remove both parentheses and the expression inside it
+            (closingIndex.downTo(openingIndex)).forEach {
                 expression.removeAt(it)
             }
-            val operators = Operator.values().map { it.symbol }
+            // put the result where the opening parenthesis was
+            expression.add(openingIndex, result.toString())
 
-            expression[openingIndex] = result.toString()
+            if (openingIndex + 1 in expression.indices &&
+                expression[openingIndex + 1] !in operators
+            ) {
+                expression.add(openingIndex + 1, Operator.MULTIPLICATION.symbol)
+            }
 
             if (openingIndex - 1 in expression.indices &&
                 expression[openingIndex - 1] !in operators
