@@ -16,8 +16,7 @@ class CalculatorViewModel : ViewModel() {
             lastStringIsParentheses()
         ) {
             currentExpression.add(digit)
-        }
-        else {
+        } else {
             appendToLastNumber(digit)
         }
     }
@@ -28,7 +27,8 @@ class CalculatorViewModel : ViewModel() {
                 appendToLastNumber("0")
             }
             if (currentExpression.last() == "(" &&
-                operator != Operator.SUBTRACTION.symbol) {
+                operator != Operator.SUBTRACTION.symbol
+            ) {
                 return
             }
             currentExpression.add(operator)
@@ -42,8 +42,7 @@ class CalculatorViewModel : ViewModel() {
         if (!currentExpression.last().contains(".")) {
             if (!currentExpression.last().last().isDigit()) {
                 currentExpression.add("0.")
-            }
-            else {
+            } else {
                 appendToLastNumber(".")
             }
         }
@@ -66,9 +65,8 @@ class CalculatorViewModel : ViewModel() {
 
     private fun lastStringIsOperator() = currentExpression.lastOrNull() in operators
 
-    private fun lastStringIsParentheses(): Boolean {
-        return currentExpression.last() == "(" || currentExpression.last() == ")"
-    }
+    private fun lastStringIsParentheses() =
+        currentExpression.last() == "(" || currentExpression.last() == ")"
 
     private fun appendToLastNumber(digitOrDot: String) {
         currentExpression[currentExpression.lastIndex] = currentExpression.last().plus(digitOrDot)
@@ -85,9 +83,9 @@ class CalculatorViewModel : ViewModel() {
         if (currentExpression.isNotEmpty()) {
             if (currentExpression.last().length == 1) {
                 currentExpression.removeLast()
-            }
-            else {
-                currentExpression[currentExpression.lastIndex] = currentExpression.last().dropLast(1)
+            } else {
+                currentExpression[currentExpression.lastIndex] =
+                    currentExpression.last().dropLast(1)
             }
         }
     }
@@ -98,9 +96,7 @@ class CalculatorViewModel : ViewModel() {
         return opening.size == closing.size
     }
 
-    fun expressionIsValid(): Boolean {
-        return hasEvenNumberOfParentheses() && currentExpression.isNotEmpty()
-    }
+    fun expressionIsValid() = hasEvenNumberOfParentheses() && currentExpression.isNotEmpty()
 
     fun calculateExpression(exp: MutableList<String> = currentExpression): Double {
         val expression = mutableListOf<String>().apply { addAll(exp) }
@@ -110,30 +106,7 @@ class CalculatorViewModel : ViewModel() {
         }
 
         while (expression.contains("(") || expression.contains(")")) {
-            val openingIndex = expression.indexOfLast { it == "(" }
-            val closingIndex = expression.indexOfFirst { it == ")" }
-
-            val subExpression = expression.subList(openingIndex + 1, closingIndex)
-            val result = calculateExpression(subExpression)
-
-            // remove both parentheses and the expression inside it
-            (closingIndex.downTo(openingIndex)).forEach {
-                expression.removeAt(it)
-            }
-            // put the result where the opening parenthesis was
-            expression.add(openingIndex, result.toString())
-
-            if (openingIndex + 1 in expression.indices &&
-                expression[openingIndex + 1] !in operators
-            ) {
-                expression.add(openingIndex + 1, Operator.MULTIPLICATION.symbol)
-            }
-
-            if (openingIndex - 1 in expression.indices &&
-                expression[openingIndex - 1] !in operators
-            ) {
-                expression.add(openingIndex, Operator.MULTIPLICATION.symbol)
-            }
+            calculateSubExpression(expression)
         }
 
         while (expression.contains(Operator.MULTIPLICATION.symbol)) {
@@ -154,6 +127,33 @@ class CalculatorViewModel : ViewModel() {
             throw ArithmeticException("invalid calculation")
         }
         return expression.first().toDouble()
+    }
+
+    private fun calculateSubExpression(expression: MutableList<String>) {
+        val openingIndex = expression.indexOfLast { it == "(" }
+        val closingIndex = expression.indexOfFirst { it == ")" }
+
+        val subExpression = expression.subList(openingIndex + 1, closingIndex)
+        val result = calculateExpression(subExpression)
+
+        // remove both parentheses and the expression inside it
+        (closingIndex.downTo(openingIndex)).forEach {
+            expression.removeAt(it)
+        }
+        // put the result where the opening parenthesis was
+        expression.add(openingIndex, result.toString())
+
+        if (openingIndex + 1 in expression.indices &&
+            expression[openingIndex + 1] !in operators
+        ) {
+            expression.add(openingIndex + 1, Operator.MULTIPLICATION.symbol)
+        }
+
+        if (openingIndex - 1 in expression.indices &&
+            expression[openingIndex - 1] !in operators
+        ) {
+            expression.add(openingIndex, Operator.MULTIPLICATION.symbol)
+        }
     }
 
     private fun calculateInOrder(
