@@ -2,6 +2,7 @@ package com.example.calculator
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import kotlin.math.exp
 
 class CalculatorViewModel : ViewModel() {
 
@@ -24,7 +25,10 @@ class CalculatorViewModel : ViewModel() {
             if (lastStringEndsWithDot()) {
                 appendToLastNumber("0")
             }
-            if (currentExpression.last() == "(" && operator != Operator.SUBTRACTION.symbol) return
+            if (currentExpression.last() == "(" &&
+                operator != Operator.SUBTRACTION.symbol) {
+                return
+            }
             currentExpression.add(operator)
         }
     }
@@ -101,11 +105,23 @@ class CalculatorViewModel : ViewModel() {
         return hasEvenNumberOfParentheses() && currentExpression.isNotEmpty()
     }
 
-    fun calculateExpression(): Double {
-        val expression = mutableListOf<String>().apply { addAll(currentExpression) }
+    fun calculateExpression(exp: MutableList<String> = currentExpression): Double {
+        val expression = mutableListOf<String>().apply { addAll(exp) }
 
         if (lastStringIsOperator()) {
             expression.removeLast()
+        }
+
+        while (expression.contains("(") || expression.contains(")")) {
+            val openingIndex = expression.indexOfLast { it == "(" }
+            val closingIndex = expression.indexOfFirst { it == ")" }
+
+            val subExpression = expression.subList(openingIndex+1, closingIndex)
+            val result = calculateExpression(subExpression)
+            (closingIndex.downTo(openingIndex+1)).forEach {
+                expression.removeAt(it)
+            }
+            expression[openingIndex] = result.toString()
         }
 
         while (expression.contains(Operator.MULTIPLICATION.symbol)) {
