@@ -8,7 +8,6 @@ class CalculatorViewModel : ViewModel() {
 
     private val currentExpression = mutableListOf<String>()
 
-    private val operators = Operator.values().map { it.symbol }
 
     fun parseDigitInput(digit: String) {
         if (currentExpression.isEmpty() ||
@@ -63,7 +62,10 @@ class CalculatorViewModel : ViewModel() {
 
     private fun lastStringEndsWithDot() = currentExpression.last().last() == '.'
 
-    private fun lastStringIsOperator() = currentExpression.lastOrNull() in operators
+    private fun lastStringIsOperator(expression: MutableList<String> = currentExpression): Boolean {
+        val operators = Operator.values().map { it.symbol }
+        return expression.lastOrNull() in operators
+    }
 
     private fun lastStringIsParentheses() =
         currentExpression.last() == "(" || currentExpression.last() == ")"
@@ -101,7 +103,7 @@ class CalculatorViewModel : ViewModel() {
     fun calculateExpression(exp: MutableList<String> = currentExpression): Double {
         val expression = mutableListOf<String>().apply { addAll(exp) }
 
-        if (lastStringIsOperator()) {
+        if (lastStringIsOperator(expression)) {
             expression.removeLast()
         }
 
