@@ -131,7 +131,9 @@ class CalculatorViewModel : ViewModel() {
 
     private fun calculateSubExpression(expression: MutableList<String>) {
         val openingIndex = expression.indexOfLast { it == "(" }
-        val closingIndex = expression.indexOfFirst { it == ")" }
+        val x = expression.subList(openingIndex, expression.size)
+
+        val closingIndex = x.indexOfFirst { it == ")" } + openingIndex
 
         val subExpression = expression.subList(openingIndex + 1, closingIndex)
         val result = calculateExpression(subExpression)
@@ -143,14 +145,14 @@ class CalculatorViewModel : ViewModel() {
         // put the result where the opening parenthesis was
         expression.add(openingIndex, result.toString())
 
+        // number before or after a parentheses is multiplied
         if (openingIndex + 1 in expression.indices &&
-            expression[openingIndex + 1] !in operators
+            expression[openingIndex + 1].first().isDigit()
         ) {
             expression.add(openingIndex + 1, Operator.MULTIPLICATION.symbol)
         }
-
         if (openingIndex - 1 in expression.indices &&
-            expression[openingIndex - 1] !in operators
+            expression[openingIndex - 1].first().isDigit()
         ) {
             expression.add(openingIndex, Operator.MULTIPLICATION.symbol)
         }
