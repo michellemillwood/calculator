@@ -21,4 +21,5 @@
     <string name="parentheses">( )</string>
     <string name="open_parentheses">(</string>
     <string name="close_parentheses">)</string>
+    <string name="invalid_expression">invalid expression</string>
 </resources>

@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                     result.text = NumberFormat.getInstance().format(viewModel.calculateExpression())
                 }
                 else {
-                    result.text = "invalid expression"
+                    result.text = getString(R.string.invalid_expression)
                 }
             }
         }

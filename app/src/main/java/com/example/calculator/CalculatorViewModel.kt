@@ -118,10 +118,18 @@ class CalculatorViewModel : ViewModel() {
 
             val subExpression = expression.subList(openingIndex+1, closingIndex)
             val result = calculateExpression(subExpression)
-            (closingIndex.downTo(openingIndex+1)).forEach {
+            (closingIndex.downTo(openingIndex + 1)).forEach {
                 expression.removeAt(it)
             }
+            val operators = Operator.values().map { it.symbol }
+
             expression[openingIndex] = result.toString()
+
+            if (openingIndex - 1 in expression.indices &&
+                expression[openingIndex - 1] !in operators
+            ) {
+                expression.add(openingIndex, Operator.MULTIPLICATION.symbol)
+            }
         }
 
         while (expression.contains(Operator.MULTIPLICATION.symbol)) {
