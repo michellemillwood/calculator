@@ -5,8 +5,10 @@ import android.util.Log
 object Calculator {
 
     fun calculateExpression(currentExpression: MutableList<String>): Double {
+
         val expression = mutableListOf<String>().apply { addAll(currentExpression) }
 
+        // ignore any operator at end of expression
         if (expression.lastOrNull() in Operator.values().map { it.symbol }) {
             expression.removeLast()
         }
@@ -27,7 +29,7 @@ object Calculator {
         while (expression.contains(Operator.SUBTRACTION.symbol)) {
             calculateInOrder(expression, Operator.SUBTRACTION)
         }
-        Log.d("viewModel", expression.toString())
+        Log.d("calculator", expression.toString())
 
         if (expression.size > 1) {
             throw ArithmeticException("invalid calculation")
@@ -36,11 +38,13 @@ object Calculator {
     }
 
     private fun calculateSubExpression(expression: MutableList<String>) {
+
+        // find indices of innermost parentheses
         val openingIndex = expression.indexOfLast { it == "(" }
-        val x = expression.subList(openingIndex, expression.size)
+        val expressionAfterOpeningIndex = expression.subList(openingIndex, expression.size)
+        val closingIndex = expressionAfterOpeningIndex.indexOfFirst { it == ")" } + openingIndex
 
-        val closingIndex = x.indexOfFirst { it == ")" } + openingIndex
-
+        // calculate the expression inside the parentheses
         val subExpression = expression.subList(openingIndex + 1, closingIndex)
         val result = calculateExpression(subExpression)
 
@@ -51,7 +55,7 @@ object Calculator {
         // put the result where the opening parenthesis was
         expression.add(openingIndex, result.toString())
 
-        // number before or after a parentheses is multiplied
+        // any number before or after a parentheses is multiplied
         if (openingIndex + 1 in expression.indices &&
             expression[openingIndex + 1].first().isDigit()
         ) {

@@ -27,12 +27,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:textAlignment="textEnd"
         android:textColor="@color/white"
         android:maxLines="2"
         android:textColorHighlight="@color/red"
         android:textIsSelectable="true"
         android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input" />
 
     <Button
@@ -43,6 +46,7 @@
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         android:gravity="center"
         android:text="@string/clear"
+        android:textSize="16sp"
         android:textColor="@color/white"
         android:backgroundTint="@color/red"
         app:layout_constraintBottom_toTopOf="@+id/button_seven"
@@ -55,7 +59,6 @@
         android:id="@+id/backspace"
         android:layout_width="0dp"
         android:layout_height="@dimen/button_height"
-        android:gravity="center"
         android:layout_marginStart="2dp"
         android:backgroundTint="@color/orange"
         android:src="@drawable/ic_outline_backspace_24"
@@ -70,7 +73,6 @@
         android:layout_height="@dimen/button_height"
         android:gravity="center"
         android:text="@string/operator_division"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/button_multiply"
         app:layout_constraintStart_toStartOf="@id/button_multiply" />
 
@@ -152,7 +154,6 @@
         android:layout_height="@dimen/button_height"
         android:gravity="center"
         android:text="@string/operator_subtraction"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/button_addition"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_six" />
@@ -194,18 +195,15 @@
         android:layout_height="@dimen/button_height"
         android:gravity="center"
         android:text="@string/operator_addition"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/button_equals"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_three" />
 
     <Button
         android:id="@+id/open_parentheses"
+        style="@style/operatorButton"
         android:layout_width="40dp"
         android:layout_height="@dimen/button_height"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/dark_grey"
         android:text="@string/open_parentheses"
         app:layout_constraintBottom_toBottomOf="@id/button_zero"
         app:layout_constraintEnd_toStartOf="@+id/close_parentheses"
@@ -213,11 +211,9 @@
 
     <Button
         android:id="@+id/close_parentheses"
+        style="@style/operatorButton"
         android:layout_width="40dp"
         android:layout_height="@dimen/button_height"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/dark_grey"
         android:text="@string/close_parentheses"
         app:layout_constraintBottom_toBottomOf="@id/button_zero"
         app:layout_constraintEnd_toStartOf="@+id/button_zero"
@@ -238,9 +234,7 @@
         style="@style/numberButton"
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
-        android:gravity="center"
         android:text="@string/dot"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/button_equals"
         app:layout_constraintEnd_toStartOf="@+id/button_equals"
         app:layout_constraintStart_toEndOf="@id/button_zero" />
@@ -252,7 +246,6 @@
         android:layout_height="@dimen/button_height"
         android:layout_marginBottom="8dp"
         android:text="@string/equals"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/dot" />

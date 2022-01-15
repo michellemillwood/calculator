@@ -1,11 +1,16 @@
 package com.example.calculator
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewAnimationUtils
 import androidx.activity.viewModels
 import com.example.calculator.databinding.ActivityMainBinding
 import java.text.NumberFormat
+import kotlin.math.hypot
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,14 +50,29 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             buttonEquals.setOnClickListener {
                 if (viewModel.expressionIsValid()) {
-                    result.text = NumberFormat.getInstance().format(viewModel.calculate())
+                    binding.result.text = NumberFormat.getInstance().format(viewModel.calculate())
                 }
                 else {
-                    result.text = getString(R.string.invalid_expression)
+                    animateInvalidResult()
                 }
             }
         }
     }
+
+    private fun animateInvalidResult() {
+        binding.result.visibility = View.INVISIBLE
+        binding.result.text = getString(R.string.invalid_expression)
+
+        val cx = binding.result.width / 2
+        val cy = binding.result.height / 2
+
+        val finalRadius = hypot(cx.toDouble(), cy.toDouble()).toFloat()
+        val anim = ViewAnimationUtils.createCircularReveal(binding.result, cx, cy, 0f, finalRadius)
+
+        binding.result.visibility = View.VISIBLE
+        anim.start()
+    }
+
 
     private fun setupParenthesesButton() {
         with(binding) {

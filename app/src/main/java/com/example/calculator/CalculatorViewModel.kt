@@ -68,8 +68,10 @@ class CalculatorViewModel : ViewModel() {
         return currentExpression.lastOrNull() in operators
     }
 
-    private fun lastStringIsParentheses() =
-        currentExpression.last() == "(" || currentExpression.last() == ")"
+    private fun lastStringIsParentheses(): Boolean {
+        return currentExpression.last() == "(" ||
+               currentExpression.last() == ")"
+    }
 
     private fun appendToLastNumber(digitOrDot: String) {
         currentExpression[currentExpression.lastIndex] = currentExpression.last().plus(digitOrDot)
@@ -88,7 +90,7 @@ class CalculatorViewModel : ViewModel() {
                 currentExpression.removeLast()
             } else {
                 currentExpression[currentExpression.lastIndex] =
-                    currentExpression.last().dropLast(1)
+                currentExpression.last().dropLast(1)
             }
         }
     }
@@ -100,5 +102,5 @@ class CalculatorViewModel : ViewModel() {
     }
 
     fun expressionIsValid() = hasEvenNumberOfParentheses() && currentExpression.isNotEmpty()
-
 }
+
