@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             buttonEquals.setOnClickListener {
                 if (viewModel.expressionIsValid()) {
-                    result.text = NumberFormat.getInstance().format(viewModel.calculateExpression())
+                    result.text = NumberFormat.getInstance().format(viewModel.calculate())
                 }
                 else {
                     result.text = getString(R.string.invalid_expression)
