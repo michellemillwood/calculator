@@ -1,8 +1,7 @@
-package com.example.calculator
+package se.millwood.calculator
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import kotlin.math.exp
 
 class CalculatorViewModel : ViewModel() {
 
@@ -23,13 +22,11 @@ class CalculatorViewModel : ViewModel() {
 
     fun parseOperatorInput(operator: String) {
         if (currentExpression.isNotEmpty() && !lastStringIsOperator()) {
+            if (currentExpression.last() == "(" &&
+                operator != Operator.SUBTRACTION.symbol) return
+
             if (lastStringEndsWithDot()) {
                 appendToLastNumber("0")
-            }
-            if (currentExpression.last() == "(" &&
-                operator != Operator.SUBTRACTION.symbol
-            ) {
-                return
             }
             currentExpression.add(operator)
         }
@@ -61,6 +58,26 @@ class CalculatorViewModel : ViewModel() {
         currentExpression.add(parentheses)
     }
 
+    fun expressionIsValid() = hasEvenNumberOfParentheses() && currentExpression.isNotEmpty()
+
+    fun getCurrentExpression(): String {
+        //Log.d("viewModel", currentExpression.toString())
+        return currentExpression.joinToString(" ")
+    }
+
+    fun deleteLast() {
+        if (currentExpression.isNotEmpty()) {
+            if (currentExpression.last().length == 1) {
+                currentExpression.removeLast()
+            } else {
+                currentExpression[currentExpression.lastIndex] =
+                currentExpression.last().dropLast(1)
+            }
+        }
+    }
+
+    fun allClear() = currentExpression.clear()
+
     private fun lastStringEndsWithDot() = currentExpression.last().last() == '.'
 
     private fun lastStringIsOperator(): Boolean {
@@ -77,30 +94,10 @@ class CalculatorViewModel : ViewModel() {
         currentExpression[currentExpression.lastIndex] = currentExpression.last().plus(digitOrDot)
     }
 
-    fun getCurrentExpression(): String {
-        Log.d("viewModel", currentExpression.toString())
-        return currentExpression.joinToString(" ")
-    }
-
-    fun allClear() = currentExpression.clear()
-
-    fun deleteLast() {
-        if (currentExpression.isNotEmpty()) {
-            if (currentExpression.last().length == 1) {
-                currentExpression.removeLast()
-            } else {
-                currentExpression[currentExpression.lastIndex] =
-                currentExpression.last().dropLast(1)
-            }
-        }
-    }
-
     private fun hasEvenNumberOfParentheses(): Boolean {
         val opening = currentExpression.filter { it == "(" }
         val closing = currentExpression.filter { it == ")" }
         return opening.size == closing.size
     }
-
-    fun expressionIsValid() = hasEvenNumberOfParentheses() && currentExpression.isNotEmpty()
 }
 

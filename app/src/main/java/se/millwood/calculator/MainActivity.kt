@@ -1,14 +1,12 @@
-package com.example.calculator
+package se.millwood.calculator
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import androidx.activity.viewModels
-import com.example.calculator.databinding.ActivityMainBinding
+import se.millwood.calculator.databinding.ActivityMainBinding
 import java.text.NumberFormat
 import kotlin.math.hypot
 

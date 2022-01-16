@@ -1,4 +1,4 @@
-package com.example.calculator
+package se.millwood.calculator
 
 
 enum class Operator(val symbol: String) {

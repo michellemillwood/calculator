@@ -1,4 +1,4 @@
-package com.example.calculator
+package se.millwood.calculator
 
 import android.util.Log
 
@@ -12,11 +12,9 @@ object Calculator {
         if (expression.lastOrNull() in Operator.values().map { it.symbol }) {
             expression.removeLast()
         }
-
         while (expression.contains("(") || expression.contains(")")) {
             calculateSubExpression(expression)
         }
-
         while (expression.contains(Operator.MULTIPLICATION.symbol)) {
             calculateInOrder(expression, Operator.MULTIPLICATION)
         }
@@ -29,8 +27,7 @@ object Calculator {
         while (expression.contains(Operator.SUBTRACTION.symbol)) {
             calculateInOrder(expression, Operator.SUBTRACTION)
         }
-        Log.d("calculator", expression.toString())
-
+        //Log.d("calculator", expression.toString())
         if (expression.size > 1) {
             throw ArithmeticException("invalid calculation")
         }
