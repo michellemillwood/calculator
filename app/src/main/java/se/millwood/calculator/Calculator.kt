@@ -1,6 +1,12 @@
 package se.millwood.calculator
 
+import android.util.Log
+
 object Calculator {
+
+    fun calculateExpression(currentExpression: MutableList<String>): Double {
+        return calculateExpression(tokenize(currentExpression))
+    }
 
     private fun tokenize(currentExpression: MutableList<String>): MutableList<Token> =
         currentExpression.map {
@@ -15,39 +21,36 @@ object Calculator {
             }
         }.toMutableList()
 
-    fun calculateExpression(currentExpression: MutableList<String>): Double {
-        return calculateExpression(tokenize(currentExpression))
-    }
-
     @JvmName("calculateExpression1")
     private fun calculateExpression(currentExpression: MutableList<Token>): Double {
-
         val expression = mutableListOf<Token>().apply { addAll(currentExpression) }
 
         // ignore any operator at end of expression
         if (expression.lastOrNull() is Operator) {
             expression.removeLast()
         }
+        
         while (expression.contains(Parentheses.OPENING) || expression.contains(Parentheses.CLOSING)) {
             calculateSubExpression(expression)
         }
+
         while (expression.contains(Operator.MULTIPLICATION)) {
-            calculateInOrder(expression, Operator.MULTIPLICATION)
+            calculateAndReplaceWithResult(expression, Operator.MULTIPLICATION)
         }
         while (expression.contains(Operator.DIVISION)) {
-            calculateInOrder(expression, Operator.DIVISION)
+            calculateAndReplaceWithResult(expression, Operator.DIVISION)
         }
         while (expression.contains(Operator.ADDITION)) {
-            calculateInOrder(expression, Operator.ADDITION)
+            calculateAndReplaceWithResult(expression, Operator.ADDITION)
         }
         while (expression.contains(Operator.SUBTRACTION)) {
-            calculateInOrder(expression, Operator.SUBTRACTION)
+            calculateAndReplaceWithResult(expression, Operator.SUBTRACTION)
         }
-        //Log.d("calculator", expression.toString())
         if (expression.size > 1 && expression.first() !is Constant) {
             throw ArithmeticException("invalid calculation")
         }
         val constant = expression.first() as Constant
+        //Log.d("calculator", constant.number.toString())
         return constant.number
     }
 
@@ -70,7 +73,7 @@ object Calculator {
         // put the result where the opening parenthesis was
         expression.add(openingIndex, Constant(result))
 
-        // any number before or after a parentheses is multiplied
+        // any number before or after a parentheses will be multiplied
         if (openingIndex + 1 in expression.indices &&
             expression[openingIndex + 1] is Constant
         ) {
@@ -83,7 +86,7 @@ object Calculator {
         }
     }
 
-    private fun calculateInOrder(
+    private fun calculateAndReplaceWithResult(
         expression: MutableList<Token>,
         operator: Operator
     ) {
@@ -91,14 +94,14 @@ object Calculator {
         val n1 = (expression[operatorIndex - 1] as Constant).number
         val n2 = (expression[operatorIndex + 1] as Constant).number
 
-        val result = calculate(n1, n2, operator)
+        val result = doArithmetic(n1, n2, operator)
 
         expression[operatorIndex] = Constant(result)
         expression.removeAt(operatorIndex + 1)
         expression.removeAt(operatorIndex - 1)
     }
 
-    private fun calculate(
+    private fun doArithmetic(
         n1: Double,
         n2: Double,
         operator: Operator

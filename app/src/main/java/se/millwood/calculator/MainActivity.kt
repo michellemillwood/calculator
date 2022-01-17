@@ -16,12 +16,11 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: CalculatorViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-        binding.input.text = viewModel.getCurrentExpression()
+        binding.currentExpression.text = viewModel.getCurrentExpression()
         setupButtons()
     }
 
@@ -58,19 +57,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun animateInvalidResult() {
-        binding.result.visibility = View.INVISIBLE
-        binding.result.text = getString(R.string.invalid_expression)
-
         val cx = binding.result.width / 2
         val cy = binding.result.height / 2
-
         val finalRadius = hypot(cx.toDouble(), cy.toDouble()).toFloat()
         val anim = ViewAnimationUtils.createCircularReveal(binding.result, cx, cy, 0f, finalRadius)
-
-        binding.result.visibility = View.VISIBLE
+        binding.result.text = getString(R.string.invalid_expression)
         anim.start()
     }
-
 
     private fun setupParenthesesButton() {
         with(binding) {
@@ -88,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCurrentExpression() {
-        binding.input.text = viewModel.getCurrentExpression()
+        binding.currentExpression.text = viewModel.getCurrentExpression()
     }
 
     private fun setupDigitButtons() {
@@ -128,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             allClear.setOnClickListener {
                 viewModel.allClear()
-                input.text = viewModel.getCurrentExpression()
+                currentExpression.text = viewModel.getCurrentExpression()
                 result.text = viewModel.getCurrentExpression()
             }
         }

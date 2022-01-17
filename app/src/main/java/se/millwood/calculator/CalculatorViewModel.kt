@@ -15,21 +15,19 @@ class CalculatorViewModel : ViewModel() {
             lastStringIsParentheses()
         ) {
             currentExpression.add(digit)
-        } else {
+        }
+        else {
             appendToLastNumber(digit)
         }
     }
 
     fun parseOperatorInput(operator: String) {
-        if (currentExpression.isNotEmpty() && !lastStringIsOperator()) {
-            if (currentExpression.last() == "(" &&
-                operator != "-") return
-
-            if (lastStringEndsWithDot()) {
-                appendToLastNumber("0")
-            }
-            currentExpression.add(operator)
+        if (currentExpression.isEmpty() || lastStringIsOperator()) return
+        if (currentExpression.last() == "(" && operator != "-") return
+        if (lastStringEndsWithDot()) {
+            appendToLastNumber("0")
         }
+        currentExpression.add(operator)
     }
 
     fun parseDecimalSeparatorInput() {
