@@ -23,7 +23,7 @@ class CalculatorViewModel : ViewModel() {
     fun parseOperatorInput(operator: String) {
         if (currentExpression.isNotEmpty() && !lastStringIsOperator()) {
             if (currentExpression.last() == "(" &&
-                operator != Operator.SUBTRACTION.symbol) return
+                operator != "-") return
 
             if (lastStringEndsWithDot()) {
                 appendToLastNumber("0")
@@ -81,7 +81,7 @@ class CalculatorViewModel : ViewModel() {
     private fun lastStringEndsWithDot() = currentExpression.last().last() == '.'
 
     private fun lastStringIsOperator(): Boolean {
-        val operators = Operator.values().map { it.symbol }
+        val operators = listOf("x", "/", "+", "-")
         return currentExpression.lastOrNull() in operators
     }
 
@@ -95,9 +95,8 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun hasEvenNumberOfParentheses(): Boolean {
-        val opening = currentExpression.filter { it == "(" }
-        val closing = currentExpression.filter { it == ")" }
-        return opening.size == closing.size
+        return currentExpression.count { it == "(" } ==
+               currentExpression.count { it == ")" }
     }
 }
 

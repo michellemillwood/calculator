@@ -1,12 +1,10 @@
 package se.millwood.calculator
 
+interface Token
 
-enum class Operator(val symbol: String) {
 
-    //PARENTHESES
-    MULTIPLICATION("x"),
-    DIVISION("/"),
-    ADDITION("+"),
-    SUBTRACTION("-")
+enum class Parentheses : Token { OPENING, CLOSING }
 
-}
+enum class Operator : Token { MULTIPLICATION, DIVISION, ADDITION, SUBTRACTION }
+
+class Constant(val number: Double) : Token
