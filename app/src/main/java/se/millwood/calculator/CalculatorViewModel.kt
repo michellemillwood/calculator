@@ -64,13 +64,13 @@ class CalculatorViewModel : ViewModel() {
     }
 
     fun deleteLast() {
-        if (currentExpression.isNotEmpty()) {
-            if (currentExpression.last().length == 1) {
-                currentExpression.removeLast()
-            } else {
-                currentExpression[currentExpression.lastIndex] =
-                currentExpression.last().dropLast(1)
-            }
+        if (currentExpression.isEmpty()) return
+        if (currentExpression.last().length == 1) {
+            currentExpression.removeLast()
+        }
+        else {
+            currentExpression[currentExpression.lastIndex] =
+            currentExpression.last().dropLast(1)
         }
     }
 

@@ -22,9 +22,7 @@ object Calculator {
         }.toMutableList()
 
     @JvmName("calculateExpression1")
-    private fun calculateExpression(currentExpression: MutableList<Token>): Double {
-        val expression = mutableListOf<Token>().apply { addAll(currentExpression) }
-
+    private fun calculateExpression(expression: MutableList<Token>): Double {
         // ignore any operator at end of expression
         if (expression.lastOrNull() is Operator) {
             expression.removeLast()
@@ -46,6 +44,7 @@ object Calculator {
         while (expression.contains(Operator.SUBTRACTION)) {
             calculateAndReplaceWithResult(expression, Operator.SUBTRACTION)
         }
+
         if (expression.size > 1 && expression.first() !is Constant) {
             throw ArithmeticException("invalid calculation")
         }
@@ -62,16 +61,12 @@ object Calculator {
 
         val subExpression = expression.subList(openingIndex + 1, closingIndex)
 
-        // calculate the expression inside the parentheses
-        val result = calculateExpression(subExpression)
+        // calculate subexpression and replace it with the result
+        calculateExpression(subExpression)
 
-        // remove both parentheses and the expression inside it
-        (closingIndex.downTo(openingIndex)).forEach {
-            expression.removeAt(it)
-        }
-
-        // put the result where the opening parenthesis was
-        expression.add(openingIndex, Constant(result))
+        // remove both parentheses
+        expression.removeAt(openingIndex + 2)
+        expression.removeAt(openingIndex)
 
         // any number before or after a parentheses will be multiplied
         if (openingIndex + 1 in expression.indices &&

@@ -42,6 +42,15 @@ class CalculatorTest {
     }
 
     @Test
+    fun threeSeparateParentheses() {
+        assertEquals(
+            18.0,
+            Calculator.calculateExpression(mutableListOf("(", "2", "x", "2", ")","(", "2", "x", "2", ")", "+", "(", "2", ")")),
+            16.0
+        )
+    }
+
+    @Test
     fun inputParsing() {
         val viewModel = CalculatorViewModel()
         viewModel.parseDecimalSeparatorInput()
